@@ -136,7 +136,7 @@ function Conn($sql)
       //echo "<li>$movieName</li>";
       
       
-      echo "<li><a href='movie.php?movieId=$movieId&movieName=$movieName&movieDesc=$movieDesc&movieGenre=$movieGenre&movieYear=$movieYear&movieRun=$movieRun&meanRating=$meanRating&nRatings=$nRatings&movieCover=$movieCover'>[$movieName ($movieYear)]</a></li>";
+      echo "<li><a href=\"movie.php?movieId=$movieId&movieName=$movieName&movieDesc=$movieDesc&movieGenre=$movieGenre&movieYear=$movieYear&movieRun=$movieRun&meanRating=$meanRating&nRatings=$nRatings&movieCover=$movieCover\">$movieName ($movieYear)</a></li>";
     }
   }
 
