@@ -42,6 +42,7 @@ function Conn($sql)
 
 
 <body>
+  <div class='container-fluid my-5 align-content-start'>
   <h1>Home page</h1>
 
   <a href="login.php">Login</a>
@@ -141,7 +142,7 @@ function Conn($sql)
 
   ?>
 
-
+</div>
 
 </body>
 

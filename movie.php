@@ -64,7 +64,7 @@ function Conn($sql)
 </head>
 
 <body>
-  <div class="container border text-center my-4 d-flex justify-content-center">
+  <div class="container text-center my-4 d-flex justify-content-center">
     <div class="row col-lg-8">
 
       <?php
@@ -132,15 +132,32 @@ function Conn($sql)
     </div>
     <div class='row'>
       <h4 class='d-flex justify-content-end'>Reviews<h4>
-      <div class='row'>
-        <div class='border' style='height:600px'>
-        </div>
-      </div>  
+          <div class='row'>
+            <div class='border' style='height:600px' data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+              <?php
+              $getReviewsSql = "SELECT * FROM tb_ratings ORDER BY rand()   LIMIT 5";
+              //use Conn to read data
+              $res = Conn($getReviewsSql) or die(mysqli_error($conn));
+
+              if (mysqli_num_rows($res) < 1) {
+                echo "<h5>No reviews at this time</h5>";
+              } else {
+                while ($row = mysqli_fetch_array($res)) {
+                  $reviews = $row["Review"];
+                  //echo "<li>$movieName</li>";
+              
+
+                  echo "<div class='border small d-flex pt-1' style='font-size:16px;'><pre>$reviews</pre></div>";
+                }
+              }
+              ?>
+            </div>
+          </div>
           <div class="input-group my-3 input-group-lg">
             <textarea type="text" rows='6' columns='50' class="form-control" placeholder='Write a review...'></textarea>
             <input type='submit' value='submit' class='btn'>
           </div>
-          
+
 
     </div>
 
