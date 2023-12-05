@@ -115,15 +115,15 @@ if ($_POST) { //
             <div class="row p-5 col-md-12">
                 <form action="" method="post" class=".login-form">
                     <span class=".username-login">
-                        <input type="text" name="userName" placeholder="Username">
+                        <input type="text" name="userName" placeholder="Username" class="form-control">
                     </span>
                     <div class=".pass-login my-2 col-md-12">
-                        <input type="password" name="pwd" placeholder="Password">
+                        <input type="password" name="pwd" placeholder="Password" class="form-control">
                     </div>
                     <span class="col">
                         <span class="col">
-                            <span class="col">
-                                <input class="col-md-4 p-1 my-3" type="submit" value="Login" class=".login-btn">
+                            <span class="col form-group">
+                                <input class="col-md-4 p-1 my-3 btn btn-primary" type="submit" value="Login">
                                 <br>
                                 <a href="register.php">Sign Up</a>
                             </span>

@@ -16,6 +16,9 @@
 
 <?php
 //function for querying db
+$userName = $pwd = $confirm_pwd = "";
+$userName_err = $pwd_err = $confirm_pwd_err = "";
+
 function Conn($sql)
 {
     $res = null;
@@ -47,8 +50,9 @@ if ($_POST) { //
     $userName = $_POST['userName'];
     $pwd = $_POST['pwd'];
     $email = $_POST['email'];
+
     //See if theres input in username and pwd
-    if ($_POST["pwd"] === $_POST["confirmpwd"]) {
+    if ($_POST["pwd"] === $_POST["confirm_pwd"]) {
         // success!
 
         if ($userName && $pwd && $email) {
@@ -77,7 +81,7 @@ if ($_POST) { //
 
                 //
                 //if (var_dump($res)) {
-                echo "<script>window.alert('Registration success')</script>";
+                    header("location: login.php");
                 //} else {
                 //    echo "<script>window.alert('Registration failed')</script>";
                 //}
@@ -97,32 +101,47 @@ if ($_POST) { //
         <div class="row p-5 col-lg-4 d-flex justify-content-center">
             <h1>Create an account</h1>
             <div class="row p-5 col-md-12">
-                <form action="" method="post">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <span>
-                        <input type="text" name="fName" placeholder="First Name">
+                        <input type="text" name="fName" placeholder="First Name" class="form-control">
                     </span>
                     <div class="my-2 col-md-12">
-                        <input type="text" name="lName" placeholder="Last Name">
+                        <input type="text" name="lName" placeholder="Last Name" class="form-control">
                     </div>
                     <div class="my-2 col-md-12">
-                        <input type="text" name="userName" placeholder="Username">
+                        <input type="text" name="userName" placeholder="Username"
+                            class="form-control <?php echo (!empty($userName_err)) ? 'is-invalid' : ''; ?>"
+                            value="<?php echo $userName; ?>">
+                        <span class="invalid-feedback">
+                            <?php echo $userName_err; ?>
+                        </span>
                     </div>
                     <div class="my-2 col-md-12">
-                        <input type="password" name="pwd" placeholder="Password">
+                        <input type="password" name="pwd" placeholder="Password"
+                            class="form-control <?php echo (!empty($pwd_err)) ? 'is-invalid' : ''; ?>"
+                            value="<?php echo $pwd; ?>">
+                        <span class="invalid-feedback">
+                            <?php echo $pwd_err; ?>
+                        </span>
                     </div>
                     <div class="my-2 col-md-12">
-                        <input type="password" name="confirmpwd" placeholder="Confirm Password">
+                        <input type="password" name="confirm_pwd" placeholder="Confirm Password"
+                            class="form-control <?php echo (!empty($confirm_pwd_err)) ? 'is-invalid' : ''; ?>"
+                            value="<?php echo $confirm_pwd; ?>">
+                        <span class="invalid-feedback">
+                            <?php echo $confirm_pwd_err; ?>
+                        </span>
                     </div>
                     <div>
-                        <input type="text" name="email" placeholder="Email Address">
+                        <input type="text" name="email" placeholder="Email Address" class="form-control">
                     </div>
                     <div class="my-3">
-                        <input type="date" name="dob" placeholder="Date of Birth">
+                        <input type="date" name="dob" placeholder="Date of Birth" class="form-control">
                     </div>
                     <span class="col">
                         <span class="col">
-                            <span class="col">
-                                <input class="col-md-8 p-1 my-3" type="submit" value="Register" class="">
+                            <span class="col form-group">
+                                <input class="col-md-8 p-2 my-3 btn btn-primary" type="submit" value="Register">
                                 <br>
                             </span>
                         </span>
