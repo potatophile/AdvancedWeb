@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2023 at 03:50 AM
+-- Generation Time: Dec 06, 2023 at 11:09 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -105,6 +105,13 @@ CREATE TABLE `tb_movielist` (
   `listName` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tb_movielist`
+--
+
+INSERT INTO `tb_movielist` (`movieID`, `listID`, `userID`, `listName`) VALUES
+(1, 2, 6, 'Favourites');
+
 -- --------------------------------------------------------
 
 --
@@ -124,7 +131,13 @@ CREATE TABLE `tb_ratings` (
 --
 
 INSERT INTO `tb_ratings` (`movieID`, `ratingID`, `userID`, `Stars`, `Review`) VALUES
-(2, 2, 9455, 9, 'Very nice movie! me likes');
+(1, 1, 6, 9, 'Great Movie! Deserves to be on top 5 movies ever made!'),
+(2, 2, 6, 9, 'Very nice movie! me likes'),
+(9, 9, 6, 9, 'Cant go wrong with lotr movies'),
+(10, 10, 6, 9, 'What a classic'),
+(13, 13, 6, 8, 'What an amazing film'),
+(15, 15, 6, 8, 'Say hello to my little friend!'),
+(20, 20, 6, 9, 'The acting in this movie is sooo good');
 
 -- --------------------------------------------------------
 
@@ -144,7 +157,8 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `userName`, `pwd`, `email`) VALUES
-(6, '111', '1234', '111');
+(6, '111', '1234', '111'),
+(9, 'iratemovies', '123456789', '9455@ait.nsw.edu.au');
 
 --
 -- Indexes for dumped tables
@@ -161,6 +175,12 @@ ALTER TABLE `tb_category`
 --
 ALTER TABLE `tb_movie`
   ADD PRIMARY KEY (`movieID`);
+
+--
+-- Indexes for table `tb_movielist`
+--
+ALTER TABLE `tb_movielist`
+  ADD PRIMARY KEY (`listID`);
 
 --
 -- Indexes for table `tb_ratings`
@@ -191,10 +211,16 @@ ALTER TABLE `tb_movie`
   MODIFY `movieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `tb_movielist`
+--
+ALTER TABLE `tb_movielist`
+  MODIFY `listID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- Database: `phpmyadmin`
 --
@@ -344,7 +370,7 @@ CREATE TABLE `pma__recent` (
 --
 
 INSERT INTO `pma__recent` (`username`, `tables`) VALUES
-('root', '[{\"db\":\"movie\",\"table\":\"tb_movie\"},{\"db\":\"movie\",\"table\":\"tb_ratings\"},{\"db\":\"movie\",\"table\":\"tb_movielist\"},{\"db\":\"movie\",\"table\":\"tb_category\"}]');
+('root', '[{\"db\":\"movie\",\"table\":\"tb_ratings\"},{\"db\":\"movie\",\"table\":\"tb_movielist\"},{\"db\":\"movie\",\"table\":\"tb_movie\"},{\"db\":\"movie\",\"table\":\"tb_user\"},{\"db\":\"movie\",\"table\":\"tb_category\"}]');
 
 -- --------------------------------------------------------
 
@@ -458,7 +484,7 @@ CREATE TABLE `pma__userconfig` (
 --
 
 INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2023-11-24 02:49:48', '{\"Console\\/Mode\":\"show\",\"ThemeDefault\":\"metro\"}');
+('root', '2023-12-06 22:09:34', '{\"Console\\/Mode\":\"show\",\"ThemeDefault\":\"metro\"}');
 
 -- --------------------------------------------------------
 
