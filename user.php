@@ -66,9 +66,8 @@ function delFav(){
 ?>
 
 <body>
-    <div>
-        <h1>User page</h1>
-        <a href="index.php">Home</a>
+    <div class='container-fluid mt-4 p-4'>
+        <h2 class='text-center'>User Profile</h2>
 
         <?php
         // Beginning the session.
@@ -104,7 +103,13 @@ function delFav(){
         // get values
         $_SESSION['last_action'] = time();
         if (isset($_SESSION['userName'])) {
-            echo '<h3>Welcome：' . $_SESSION['userName'] . '</h3>';
+            echo "<div class='container-fluid d-flex col-lg-12 mt-2 p-2'>";
+            echo "<h3 class='d-flex justify-content-start col-sm-4'>Welcome：" . $_SESSION['userName'] . "</h3>";
+            echo "<a class='col-lg-4 btn btn-light' href='index.php'>Home</a>";
+            echo "<form method='post' class='d-flex form-group col-lg-4 justify-content-end'>";
+            echo "<input class='btn btn-secondary' type='submit' name='buttonKillSession' value='Log Out'/>";
+            echo "</form>";
+            echo "</div>";
             // echo "<a href=" . 'user.php' .">User portal</a>";
         } else {
             // echo "<br>";
@@ -123,7 +128,7 @@ function delFav(){
             echo 'You have been logged out';
 
             // sends user back to homepage when logout
-            header('Location: http://localhost/advancedweb/index.php');
+            header('Location: http://localhost/movierater/AdvancedWeb/index.php');
             exit;
         }
 

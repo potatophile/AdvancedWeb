@@ -54,7 +54,7 @@ function Conn($sql)
     //Beginning the session.
     //https://www.w3docs.com/snippets/php/how-to-expire-a-php-session.html
     session_start();
-
+    
     //if user is not logged in, redirect to login page
     if (!isset($_SESSION["last_action"])) {
       header("location: login.php");
@@ -63,7 +63,7 @@ function Conn($sql)
     //Expiring the session in case the user is inactive for 30
     //minutes or more.
     $expireAfter = 30;
-
+    $userName="";
     //Test to make sure if our "last action" session
     //variable was set.
     if (isset($_SESSION['last_action'])) {
@@ -209,7 +209,7 @@ function Conn($sql)
         
         echo "<div class='container-fluid d-flex border mt-4 justify-content-around col-lg'>";
         echo "<div class='mr-4 p-2'>";
-        echo "<a class='mt-4 p-4 d-flex ' href=\"movie.php?movieId=$movieId&movieName=$movieName&movieDesc=$movieDesc&movieGenre=$movieGenre&movieYear=$movieYear&movieRun=$movieRun&meanRating=$meanRating&nRatings=$nRatings&movieCover=$movieCover\">$movieName ($movieYear)</a>";
+        echo "<a class='mt-4 p-4 d-flex' href=\"movie.php?movieId=$movieId&movieName=$movieName&movieDesc=$movieDesc&movieGenre=$movieGenre&movieYear=$movieYear&movieRun=$movieRun&meanRating=$meanRating&nRatings=$nRatings&movieCover=$movieCover\">$movieName ($movieYear)</a>";
         echo "<img class='mt-4 p-4' style='height:400px' src='images/$movieCover'>";
         echo "</div>";
         echo "</div";
