@@ -125,7 +125,7 @@ function Conn($sql)
 
       //get values
       
-      echo "<h3>Welcome：" . $_SESSION['userName'] . "</h3>";
+      echo "<h3>User:" . $_SESSION['userName'] . "</h3>";
       //Warning: Undefined array key "userName" in /Applications/XAMPP/xamppfiles/htdocs/movierater/index.php on line 47
       //uncatched expection when logged out/not login
       ?>
