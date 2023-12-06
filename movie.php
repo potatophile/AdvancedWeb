@@ -130,8 +130,8 @@ function Conn($sql)
           $selectReviews = "SELECT * FROM tb_ratings";
 
           $res = Conn($selectReviews);
-          INSERT INTO `tb_ratings`(`movieID`, `ratingID`, `userID`, `Stars`, `Review`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]')
-          $addReviewSql = "INSERT INTO `tb_ratings` (`movieID`, `userID`, `Stars`, `Review`) 
+
+          $addReviewSql = "INSERT INTO tb_ratings (movieID, userID, Stars, Review) 
     values ('$movieId', '$userFavID', $stars, $review)" or die('Please try again.');
 
           $res = Conn($addReviewSql);
