@@ -19,7 +19,7 @@ function getMovieLink($movieID)
     // display movie catalog with 5 random movies
 
     // Make the sql query
-    $getMovieSql = "SELECT * FROM tb_movie where movieID = '$movieID'";
+    $getMovieSql = "SELECT * FROM tb_movie WHERE movieID = '$movieID'";
     // use Conn to read data
     // ignore the 
     $res = Conn($getMovieSql) or exit(mysqli_error($conn));
@@ -134,16 +134,12 @@ function delFav(){
 
         ?>
 
-        <form method="post">
-            <input type="submit" name="buttonKillSession" value="Log Out" />
-        </form>
-
         <h6>Update Password</h6>
 
         <form method="post">
 
             <input type="text" name="newPassword" placeholder="New password">
-            <input type="submit" name="buttonPassword" value="Submit" />
+            <input type="submit" name="buttonPassword" value="Submit"/>
 
         </form>
 
@@ -157,11 +153,15 @@ function delFav(){
             $userID = $_SESSION['id'];
 
             $newPassword = $_POST['newPassword'];
+            $confirmPassword = $_POST['confirmPassword'];
+            
+            if($newPassword == $confirmPassword) {
 
-            $query = "UPDATE tb_user SET pwd = '$newPassword' WHERE id = '$userID'";
+            $query = "UPDATE tb_user SET pwd = '$newPassword' WHERE userID = '$userID'";
             // use Conn to make query
             $res = Conn($query) or exit(mysqli_error($conn));
             echo '<script>alert("Password Updated successfully")</script>';
+            }
         }
         ?>
 
@@ -172,7 +172,7 @@ function delFav(){
 
         $devideString = ' - ';
 
-        echo '<h5>Favourited Movies  </h5><br>';
+        echo '<span><h5>Favourited Movies</h5></span>';
 
         // Make the sql query WHERE userID = ".$_SESSION['userID']."
         //
@@ -218,7 +218,7 @@ function delFav(){
         $res = Conn($getMovieSql) or exit(mysqli_error($conn));
 
         if (mysqli_num_rows($res) < 1) {
-            echo "<H6>You haven't rated any movies yet.</h6>";
+            echo "<h6>You haven't rated any movies yet.</h6>";
         } else {
             while ($row = mysqli_fetch_array($res)) {
                 $movieID = $row['movieID'];
@@ -228,7 +228,7 @@ function delFav(){
                 $Review = stripslashes($row['Review']);
 
                 $movieDetailLink = getMovieLink($movieID);
-
+                
                 $deleteFavLink = "<a href='DeleteRated.php?ratingid=".$ratingID."' id='buttonDelete'>Delete</a>";                
 
                 echo "<li>$movieDetailLink $devideString $Stars  $devideString $Review $devideString $deleteFavLink</li>";

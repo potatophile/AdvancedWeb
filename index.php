@@ -50,60 +50,61 @@ function Conn($sql)
       <h2>Movie Rater</h2>
     </div>
     <div class='container-fluid col-lg-12'>
-    <?php
-    //Beginning the session.
-    //https://www.w3docs.com/snippets/php/how-to-expire-a-php-session.html
-    session_start();
-    
-    //if user is not logged in, redirect to login page
-    if (!isset($_SESSION["last_action"])) {
-      header("location: login.php");
-      exit;
-    }
-    //Expiring the session in case the user is inactive for 30
-    //minutes or more.
-    $expireAfter = 30;
-    $userName="";
-    //Test to make sure if our "last action" session
-    //variable was set.
-    if (isset($_SESSION['last_action'])) {
-      //Find out how many seconds have already passed
-      //since the user was active last time.
-      echo "<div class='d-flex'>";
-      echo "<h3 class='d-flex justify-content-start col-sm-4'>Welcome：" . $_SESSION['userName'] . "</h3>";
-      echo "<a class='col-sm-4 btn btn-light' href=user.php>User Profile</a>";
-      echo "<form method='post' class='d-flex form-group col-sm-4 justify-content-end'>";
-      echo "<input class='btn btn-secondary' type='submit' name='buttonKillSession' value='Log Out'/>";
-      echo "</form>";
-      echo "</div>";
+      <?php
+      //Beginning the session.
+      //https://www.w3docs.com/snippets/php/how-to-expire-a-php-session.html
+      session_start();
 
-      $secondsInactive = time() - $_SESSION['last_action'];
-
-      //Converting the minutes into seconds.
-      $expireAfterSeconds = $expireAfter * 60;
-
-      //Test to make sure if they have not been active for too long.
-      if ($secondsInactive >= $expireAfterSeconds) {
-        // The user has not been active for too long.
-        //Killing the session.
-        session_unset();
-        session_destroy();
+      //if user is not logged in, redirect to login page
+      if (!isset($_SESSION["last_action"])) {
+        header("location: login.php");
+        exit;
       }
-    } else {
-      echo "<a class='d-flex justify-content-end' href='login.php'>Login</a>";
-    }
+      //Expiring the session in case the user is inactive for 30
+      //minutes or more.
+      $expireAfter = 30;
+      $userName = "";
+      //Test to make sure if our "last action" session
+      //variable was set.
+      if (isset($_SESSION['last_action'])) {
+        //Find out how many seconds have already passed
+        //since the user was active last time.
+        echo "<div class='d-flex'>";
+        echo "<h3 class='d-flex justify-content-start col-sm-4'>Welcome：" . $_SESSION['userName'] . "</h3>";
+        echo "<a class='col-sm-4 btn btn-light' href=user.php>User Profile</a>";
+        echo "<form method='post' class='d-flex form-group col-sm-4 justify-content-end'>";
+        echo "<input class='btn btn-secondary' type='submit' name='buttonKillSession' value='Log Out'/>";
+        echo "</form>";
+        echo "</div>";
 
-    //Assigning the current timestamp as the user's
-    // the latest action
-    $_SESSION['last_action'] = time();
+        $secondsInactive = time() - $_SESSION['last_action'];
 
-    //get values
-    
-    //echo "<h3>Welcome：" . $_SESSION['userName'] . "</h3>";
-    //Warning: Undefined array key "userName" in /Applications/XAMPP/xamppfiles/htdocs/movierater/index.php on line 47
-    //uncatched expection when logged out/not login
-    
-    ?>
+        //Converting the minutes into seconds.
+        $expireAfterSeconds = $expireAfter * 60;
+
+        //Test to make sure if they have not been active for too long.
+        if ($secondsInactive >= $expireAfterSeconds) {
+          // The user has not been active for too long.
+          //Killing the session.
+          session_unset();
+          session_destroy();
+          header("location: login.php");
+        }
+      } else {
+        echo "<a class='d-flex justify-content-end' href='login.php'>Login</a>";
+      }
+
+      //Assigning the current timestamp as the user's
+      // the latest action
+      $_SESSION['last_action'] = time();
+
+      //get values
+      
+      //echo "<h3>Welcome：" . $_SESSION['userName'] . "</h3>";
+      //Warning: Undefined array key "userName" in /Applications/XAMPP/xamppfiles/htdocs/movierater/index.php on line 47
+      //uncatched expection when logged out/not login
+      
+      ?>
     </div>
 
 
@@ -117,26 +118,19 @@ function Conn($sql)
       session_destroy();
 
       echo "You have been logged out";
+      header("location: login.php");
     }
 
     ?>
-    <?php
-
-    // search function
-// search box and button
-// list all category as dropdown
-// search display
-    
-    // load genre
-// make search query
-// $getGenreSql = 'SELECT DISTINCT genre FROM tb_movie';
-    
-    ?>
 
     <form method="post" class='d-flex form-group mt-3'>
-      <input class = 'form-control' type="text" name="searchName" placeholder="Search here...">
-      <input class = 'm-3 btn btn-primary' type="submit" name="button" value="Search">
-
+      <input class='form-control' type="text" name="searchName" placeholder="Search here...">
+      <input class='m-3 btn btn-primary' type="submit" name="button" value="Search">
+      <select name="field">
+        <option value="movieName">title</option>
+        <option value="year">year</option>
+        <option value="genre">genre</option>
+      </select>
     </form>
 
     <?php
@@ -149,7 +143,7 @@ function Conn($sql)
       // possible problem with search query
     
       // $getMovieSql = 'SELECT * FROM tb_movie WHERE movieName LIKE "%$searchName%"';
-      $getMovieSql = "SELECT * FROM tb_movie WHERE movieName LIKE '%$searchName%'";
+      $getMovieSql = "SELECT * FROM `tb_movie` WHERE " . $_POST['field'] . " LIKE '%$searchName%'";
       // use Conn to read data
       $res = Conn($getMovieSql) or exit(mysqli_error($conn));
 
@@ -168,16 +162,16 @@ function Conn($sql)
           $movieCover = $row['cover'];
 
           // echo "<li>$movieName</li>";
-          
+          echo "<div>";
           echo "<li><a href=\"movie.php?movieId=$movieId&movieName=$movieName&movieDesc=$movieDesc&movieGenre=$movieGenre&movieYear=$movieYear&movieRun=$movieRun&meanRating=$meanRating&nRatings=$nRatings&movieCover=$movieCover\">$movieName ($movieYear)</a></li>";
           echo "</div>";
         }
       }
-    }
-    ?>
+    }else {
+    
 
 
-    <?php
+    
     // display movie catalog with 5 random movies
     
     // display movie catalog with 5 random movies
@@ -206,7 +200,7 @@ function Conn($sql)
         $movieCover = $row['cover'];
 
         //echo "<li>$movieName</li>";
-        
+    
         echo "<div class='container-fluid d-flex border mt-4 justify-content-around col-lg'>";
         echo "<div class='mr-4 p-2'>";
         echo "<a class='mt-4 p-4 d-flex' href=\"movie.php?movieId=$movieId&movieName=$movieName&movieDesc=$movieDesc&movieGenre=$movieGenre&movieYear=$movieYear&movieRun=$movieRun&meanRating=$meanRating&nRatings=$nRatings&movieCover=$movieCover\">$movieName ($movieYear)</a>";
@@ -215,7 +209,7 @@ function Conn($sql)
         echo "</div";
       }
     }
-
+  }
     ?>
 
   </div>

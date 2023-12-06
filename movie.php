@@ -66,11 +66,26 @@ function Conn($sql)
 <body>
   <div class="container text-center my-4 d-flex justify-content-center">
     <div class="row col-lg-8">
+      <script>
+        var hidden = false;
+        function action() {
+          hidden = !hidden;
+          if (hidden) {
+            document.getElementById('toggler').innerHTML = 'hidden'.style = 'Remove From Favorites';
+          } else {
+            document.getElementById('toggler').innerHTML = 'visible'.style = 'Add To Favorites';
+          }
+        }
+      </script>
 
       <?php
       echo "<div class='col-md-12'>";
       $imgpath = "images/" . $movieCover;
       echo '<img src="' . $imgpath . '" style="width:300px;height:426px">';
+      echo "<br>";
+      echo "<form method='post'>";
+      echo "<button id='toggler' name='add' onClick='action();' class='btn btn-primary col-sm-4 mt-2 p-2'>Add to Favourite</button>";
+      echo "</form>";
       echo "</div>";
       echo "<div class='my-4 col-md-12 text-center d-flex justify-content-center'>";
       echo "<h1>$movieName ($movieYear)</h1>";
@@ -91,11 +106,39 @@ function Conn($sql)
       fclose($myfile);
       echo "</div>";
 
-
       //Beginning the session.
       //https://www.w3docs.com/snippets/php/how-to-expire-a-php-session.html
       session_start();
+      $userFavID = $_SESSION["id"];
 
+      if (isset($_POST['add'])) {
+        $selectFavSql = "SELECT * FROM tb_user";
+
+        $res = Conn($selectFavSql);
+
+        $addFavSql = "INSERT INTO tb_movielist (movieID, userID, listName) 
+        values ('$movieId', '$userFavID', 'Favourites')" or die('Please try again.');
+
+        $res = Conn($addFavSql);
+        header("location: user.php");
+      }
+
+      if (isset($_POST['review'])) {
+        $stars = $_POST['stars'];
+        $review = $_POST['review'];
+        if (!empty($stars) && !empty($review)) {
+          $selectReviews = "SELECT * FROM tb_ratings";
+
+          $res = Conn($selectReviews);
+
+          $addReviewSql = "INSERT INTO tb_ratings (movieID, userID, Stars, Review) 
+    values ('$movieId', '$userFavID', $stars, $review)" or die('Please try again.');
+
+          $res = Conn($addReviewSql);
+        } else {
+          echo "Please fill out all the fields before submitting a review.";
+        }
+      }
       //Expiring the session in case the user is inactive for 30
       //minutes or more.
       $expireAfter = 30;
@@ -135,7 +178,7 @@ function Conn($sql)
           <div class='row'>
             <div class='border' style='height:600px' data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
               <?php
-              $getReviewsSql = "SELECT * FROM tb_ratings ORDER BY rand()   LIMIT 5";
+              $getReviewsSql = "SELECT * FROM tb_ratings WHERE movieID LIKE '%$movieId' ORDER BY rand()   LIMIT 5";
               //use Conn to read data
               $res = Conn($getReviewsSql) or die(mysqli_error($conn));
 
@@ -146,18 +189,19 @@ function Conn($sql)
                   $reviews = $row["Review"];
                   //echo "<li>$movieName</li>";
               
-
                   echo "<div class='border small d-flex pt-1' style='font-size:16px;'><pre>$reviews</pre></div>";
                 }
               }
               ?>
             </div>
           </div>
-          <div class="input-group my-3 input-group-lg">
+          <form class="input-group my-3 input-group-lg form-group" method='post'>
+            <div class='container col-sm-2'>
+              <input name='stars' class='d-flex col-sm-1 form-control'> / 10</input>
+            </div>
             <textarea type="text" rows='6' columns='50' class="form-control" placeholder='Write a review...'></textarea>
-            <input type='submit' value='submit' class='btn'>
-          </div>
-
+            <input style='width:100px' name='review' type='submit' value='Submit' class='btn'>
+          </form>
 
     </div>
 
